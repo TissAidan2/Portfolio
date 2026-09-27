@@ -603,66 +603,102 @@ h2::after {
   min-height: 1.2em;
 }
 
-/* Mobile Responsiveness & Small Screen Adjustments */
+/* Refined Mobile Layout (Mobile / Small Screens) */
 @media (max-width: 768px) {
-  /* 1. Outer Layout Padding */
+  /* 1. Remove body locks so the mobile page scrolls naturally */
   body {
-    padding: 0; /* Remove body padding on mobile to maximize screen real estate */
+    padding: 0;
+    align-items: flex-start;
+    min-height: 100vh;
+    overflow-y: auto;
   }
 
   #window {
     width: 100vw;
-    height: 100vh;
-    border: none; /* Strip borders on mobile for edge-to-edge terminal view */
-    border-radius: 0;
+    height: auto; /* Let content determine screen height */
+    min-height: 100vh;
+    border: none;
+    box-shadow: none;
   }
 
-  /* 2. Switch Split-Pane Layout from Horizontal to Vertical Stacking */
   #window-body {
     flex-direction: column;
-    overflow-y: auto; /* Allow full page scrolling on mobile */
+    height: auto;
+    overflow: visible; /* Prevent nested scrolling containers */
   }
 
-  /* 3. Stack Sidebar on Top */
+  /* 2. Compact Top Navigation Sidebar */
   #sidebar {
     width: 100%;
-    max-height: 200px; /* Limit sidebar height so it doesn't take over screen */
+    max-height: none; /* Let sidebar expand naturally without taking over height */
     border-right: none;
     border-bottom: 1px solid var(--border-color);
-    padding: 1rem;
-    overflow-y: auto;
+    padding: 0.75rem 1rem;
+    overflow: visible;
   }
 
-  /* 4. Full Width Content Display */
+  .sidebar-title {
+    margin-bottom: 0.5rem;
+    font-size: 0.75rem;
+    opacity: 0.8;
+  }
+
+  #directory-nav ul {
+    gap: 0.25rem;
+  }
+
+  #directory-nav a,
+  .folder-toggle {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.85rem; /* Slightly smaller text for tree items */
+  }
+
+  /* Indent sub-items slightly less on mobile */
+  .sub-dir {
+    margin-left: 0.5rem;
+  }
+
+  /* 3. Fluid Main Content Display */
   #content-display {
     width: 100%;
-    padding: 1.25rem;
-    overflow-y: visible; /* Scroll naturally with the window body */
+    padding: 1rem 0.75rem;
+    overflow: visible;
   }
 
-  /* 5. Compact Header and Title Bar */
-  #window-header {
-    padding: 0.5rem 0.75rem;
-    font-size: 0.8rem;
+  h2 {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    word-break: break-all; /* Prevents long file titles like 02_projects/project_alpha.py from overflowing horizontal screen */
   }
 
-  .window-controls {
-    display: none; /* Optional: hide decorative window buttons on phone screens */
+  /* 4. Project & Skill Cards Spacing */
+  .project-card,
+  .skill-detail-box,
+  .contact-box {
+    padding: 0.85rem; /* Tighten box padding */
   }
 
-  /* 6. Mobile Profile and Grid Layouts */
-  .profile-container {
-    flex-direction: column;
-    align-items: center;
+  .project-img {
+    max-height: 180px; /* Scale down project screenshot preview height */
+  }
+
+  .action-buttons {
+    flex-direction: column; /* Stack GitHub and Demo buttons vertically */
+    gap: 0.5rem;
+  }
+
+  .action-buttons .btn {
+    display: block;
     text-align: center;
+    width: 100%;
   }
+}
 
-  .profile-pic {
-    width: 100px;
-    height: 100px;
-  }
-
-  .tech-tags {
-    flex-wrap: wrap; /* Ensure skill badges wrap neatly on smaller screens */
+@media (max-width: 768px) {
+  #sidebar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background-color: var(--window-bg); /* Prevents content below from showing through */
   }
 }
