@@ -602,3 +602,67 @@ h2::after {
   letter-spacing: 0.5px;
   min-height: 1.2em;
 }
+
+/* Mobile Responsiveness & Small Screen Adjustments */
+@media (max-width: 768px) {
+  /* 1. Outer Layout Padding */
+  body {
+    padding: 0; /* Remove body padding on mobile to maximize screen real estate */
+  }
+
+  #window {
+    width: 100vw;
+    height: 100vh;
+    border: none; /* Strip borders on mobile for edge-to-edge terminal view */
+    border-radius: 0;
+  }
+
+  /* 2. Switch Split-Pane Layout from Horizontal to Vertical Stacking */
+  #window-body {
+    flex-direction: column;
+    overflow-y: auto; /* Allow full page scrolling on mobile */
+  }
+
+  /* 3. Stack Sidebar on Top */
+  #sidebar {
+    width: 100%;
+    max-height: 200px; /* Limit sidebar height so it doesn't take over screen */
+    border-right: none;
+    border-bottom: 1px solid var(--border-color);
+    padding: 1rem;
+    overflow-y: auto;
+  }
+
+  /* 4. Full Width Content Display */
+  #content-display {
+    width: 100%;
+    padding: 1.25rem;
+    overflow-y: visible; /* Scroll naturally with the window body */
+  }
+
+  /* 5. Compact Header and Title Bar */
+  #window-header {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.8rem;
+  }
+
+  .window-controls {
+    display: none; /* Optional: hide decorative window buttons on phone screens */
+  }
+
+  /* 6. Mobile Profile and Grid Layouts */
+  .profile-container {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .profile-pic {
+    width: 100px;
+    height: 100px;
+  }
+
+  .tech-tags {
+    flex-wrap: wrap; /* Ensure skill badges wrap neatly on smaller screens */
+  }
+}
