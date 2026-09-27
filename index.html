@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aidan Briggs | Portfolio</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div id="window">
+        <header id="window-header">
+    <div class="header-left">
+        <!-- Distinct Name Badge Box -->
+        <div class="user-badge-container">
+        <span class="user-name">AIDAN BRIGGS</span>
+        </div>
+        <span class="header-divider">|</span>
+        <span class="window-title">system@portfolio:~<span class="cursor"></span></span>
+    </div>
+
+    <div class="header-right">
+        <div class="sys-badge">
+        <span class="pulse-dot"></span>
+        <span class="status-text">SYS_STATUS: ONLINE // LATENCY: 12ms</span>
+        </div>
+        <div class="window-controls">
+        <span class="control minimize"></span>
+        <span class="control maximize"></span>
+        <span class="control close"></span>
+        </div>
+    </div>
+    </header>
+
+    <div id="window-body">
+      
+      <!-- Left Sidebar -->
+      <aside id="sidebar">
+        <div class="sidebar-title">NAVIGATION</div>
+        <nav id="directory-nav">
+          <ul>
+            <li><a href="#about" class="nav-link active" data-target="about">> [ / ] ABOUT.txt</a></li>
+            
+            <!-- Expandable Projects Folder -->
+            <li class="folder-group open">
+              <span class="folder-toggle">> [ - ] PROJECTS/</span>
+              <ul class="sub-dir">
+                <li><a href="#project-alpha" class="nav-link" data-target="project-alpha">|_ project_alpha.py</a></li>
+                <li><a href="#project-beta" class="nav-link" data-target="project-beta">|_ project_beta.cpp</a></li>
+              </ul>
+            </li>
+
+            <!-- Expandable Skills Folder -->
+            <li class="folder-group">
+              <span class="folder-toggle">> [ + ] SKILLS/</span>
+              <ul class="sub-dir">
+                <li><a href="#skill-cpp" class="nav-link" data-target="skill-cpp">|_ cpp_systems.sys</a></li>
+                <li><a href="#skill-python" class="nav-link" data-target="skill-python">|_ python_scripting.sys</a></li>
+                <li><a href="#skill-linux" class="nav-link" data-target="skill-linux">|_ linux_environment.sys</a></li>
+              </ul>
+            </li>
+
+            <li><a href="#contact" class="nav-link" data-target="contact">> [ ] CONTACT.sh</a></li>
+          </ul>
+        </nav>
+      </aside>
+
+      <!-- Right Content Pane -->
+      <main id="content-display">
+        
+        <!-- About Section -->
+        <section id="about" class="tab-content active-tab">
+          <h2>01_about.txt</h2>
+          <div class="profile-container">
+            <img src="images/profile.png" alt="Profile Picture" class="profile-pic modal-trigger">
+            <div class="bio-text">
+              <p>I am a Computer Science & Computer Engineering student interested in low-level systems, software design, and custom Linux environments.</p>
+              <div class="quick-stats">
+                <span class="stat-tag">[Focus: Systems Programming]</span>
+                <span class="stat-tag">[OS: Linux / POSIX]</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Project 1 -->
+        <section id="project-alpha" class="tab-content">
+          <h2>02_projects/project_alpha.py</h2>
+          <div class="project-card">
+            <div class="image-preview-wrapper">
+              <img src="images/project_alpha.png" alt="Project Alpha Screenshot" class="project-img modal-trigger">
+              <span class="img-caption">[ CLICK IMAGE TO EXPAND PREVIEW ]</span>
+            </div>
+
+            <p class="project-desc">A low-level system tool built to monitor process execution and system telemetry in real time.</p>
+
+            <ul class="tech-tags">
+              <li>Python</li>
+              <li>Linux API</li>
+              <li>POSIX</li>
+            </ul>
+
+            <div class="action-buttons">
+              <a href="https://github.com/yourusername/project-alpha" target="_blank" class="btn">[ View Code on GitHub → ]</a>
+              <a href="#" class="btn btn-secondary">[ Run Telemetry Demo ]</a>
+            </div>
+          </div>
+        </section>
+
+        <!-- Project 2 -->
+        <section id="project-beta" class="tab-content">
+          <h2>02_projects/project_beta.cpp</h2>
+          <div class="project-card">
+            <div class="image-preview-wrapper">
+              <img src="images/project_beta.png" alt="Project Beta Architecture Screenshot" class="project-img modal-trigger">
+              <span class="img-caption">[ CLICK IMAGE TO EXPAND PREVIEW ]</span>
+            </div>
+
+            <p class="project-desc">Custom C++ memory allocator and performance benchmarker designed for embedded target boards.</p>
+
+            <ul class="tech-tags">
+              <li>C++</li>
+              <li>Embedded Linux</li>
+              <li>Memory Allocators</li>
+            </ul>
+
+            <div class="action-buttons">
+              <a href="https://github.com/yourusername/project-beta" target="_blank" class="btn">[ View Code on GitHub → ]</a>
+            </div>
+          </div>
+        </section>
+
+        <!-- Skill 1: C++ -->
+        <section id="skill-cpp" class="tab-content">
+          <h2>03_skills/cpp_systems.sys</h2>
+          <div class="skill-detail-box">
+            <p><strong>Experience Level:</strong> Advanced / Coursework & Projects</p>
+            <ul>
+              <li>Memory Management: Pointers, dynamic allocation, custom allocators.</li>
+              <li>Object-Oriented & Generic Programming: Templates, STL containers, inheritance.</li>
+              <li>System Programming: Inter-process communication (IPC) and POSIX system calls.</li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- Skill 2: Python -->
+        <section id="skill-python" class="tab-content">
+          <h2>03_skills/python_scripting.sys</h2>
+          <div class="skill-detail-box">
+            <p><strong>Experience Level:</strong> Intermediate</p>
+            <ul>
+              <li>Automation & Tooling: Writing CLI utilities and build helpers.</li>
+              <li>Data Processing: Parsing system log files and JSON telemetries.</li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- Skill 3: Linux -->
+        <section id="skill-linux" class="tab-content">
+          <h2>03_skills/linux_environment.sys</h2>
+          <div class="skill-detail-box">
+            <p><strong>Experience Level:</strong> Daily Driver</p>
+            <ul>
+              <li>Custom Environments: Configured Zorin OS with terminal tools (yazi, fastfetch, cava).</li>
+              <li>Shell Scripting: Writing Bash scripts for system maintenance and automation.</li>
+              <li>Build Tools: Makefile setups, GCC/Clang toolchains, and Git version control.</li>
+            </ul>
+          </div>
+        </section>
+
+<!-- Contact Section -->
+        <section id="contact" class="tab-content">
+          <h2>04_contact.sh</h2>
+          <div class="contact-box">
+            <p>Email: <a href="mailto:briggsaidan133@gmail.com">briggsaidan133@gmail.com</a></p>
+            <p>GitHub: <a href="https://github.com/TissAidan2" target="_blank">github.com/TissAidan2</a></p>
+            <p>Resume: <a href="#" id="resume-link" download="Aidan_Briggs_Resume.pdf">[ Download Resume.pdf ]</a></p>
+
+            <!-- Terminal Contact Form -->
+            <form id="contact-form" class="terminal-form">
+              <div class="form-group">
+                <label for="email">> sender_email:</label>
+                <input type="email" id="email" name="email" required placeholder="you@company.com">
+              </div>
+              
+              <div class="form-group">
+                <label for="message">> payload_message:</label>
+                <textarea id="message" name="message" rows="4" required placeholder="Type your message here..."></textarea>
+              </div>
+
+              <button type="submit" id="submit-btn" class="btn">[ SEND MESSAGE ]</button>
+              
+              <!-- Terminal Response Log Output -->
+              <div id="form-status" class="form-status-msg"></div>
+            </form>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- Image Modal Viewer -->
+  <div id="image-modal" class="modal">
+    <span class="modal-close">&times; [ESC / CLOSE]</span>
+    <img class="modal-content" id="modal-img">
+    <div id="modal-caption"></div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

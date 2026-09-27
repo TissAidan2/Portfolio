@@ -1,0 +1,604 @@
+/* 1. Terminal Color Palette & CSS Variables */
+:root {
+  --bg-color: #060906;          /* Deep terminal black */
+  --window-bg: #030803;        /* Container green-black */
+  --text-main: #22c55e;        /* Phosphor green */
+  --text-muted: #15803d;       /* Muted darker green */
+  --border-color: #166534;     /* Green borders */
+  --accent-color: #4ade80;     /* Highlight green */
+  --glow-color: rgba(34, 197, 94, 0.25);
+  --font-mono: 'Courier New', monospace;
+}
+
+/* Global Reset */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* CRT Scanline Overlay Effect */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0; 
+  left: 0; 
+  width: 100vw; 
+  height: 100vh;
+  background: linear-gradient(
+    rgba(18, 16, 16, 0) 50%, 
+    rgba(0, 0, 0, 0.25) 50%
+  );
+  background-size: 100% 4px;
+  z-index: 99;
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+/* CRT Corner Vignette */
+body::after {
+  content: "";
+  position: fixed;
+  top: 0; 
+  left: 0; 
+  width: 100vw; 
+  height: 100vh;
+  background: radial-gradient(
+    circle at center,
+    transparent 75%,
+    rgba(0, 0, 0, 0.7) 100%
+  );
+  z-index: 98;
+  pointer-events: none;
+}
+
+/* Ambient Radial Background */
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: var(--bg-color);
+  background-image: radial-gradient(
+    circle at 50% 35%, 
+    rgba(34, 197, 94, 0.18) 0%, 
+    rgba(22, 101, 52, 0.10) 45%, 
+    rgba(6, 9, 6, 0.98) 80%
+  );
+  color: var(--text-main);
+  font-family: var(--font-mono);
+  line-height: 1.6;
+  text-shadow: 0 0 5px var(--glow-color);
+}
+
+/* 2. Main Window Container */
+#window {
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--window-bg);
+  display: flex;
+  flex-direction: column;
+  box-shadow: 
+    0 0 35px rgba(34, 197, 94, 0.15),
+    inset 0 0 50px rgba(34, 197, 94, 0.08);
+}
+
+/* Header Bar */
+#window-header {
+  background: linear-gradient(180deg, #032018 0%, #021a13 100%);
+  padding: 0.6rem 1.25rem;
+  border-bottom: 1px solid var(--border-color);
+  font-weight: bold;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+/* Left Header Area */
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+/* Glowing Name Badge Frame */
+.user-badge-container {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.15rem 0.55rem;
+  background-color: rgba(3, 32, 24, 0.6);
+  border: 1px solid var(--accent-color);
+  border-radius: 2px;
+  box-shadow: 
+    0 0 10px rgba(74, 222, 128, 0.4),
+    inset 0 0 6px rgba(34, 197, 94, 0.2);
+}
+
+/* Badge Text Styling */
+.user-name {
+  color: #ffffff;
+  font-weight: 800;
+  font-size: 0.8rem;
+  letter-spacing: 1.2px;
+  text-shadow: 
+    0 0 4px #ffffff,
+    0 0 8px rgba(74, 222, 128, 0.8);
+}
+
+/* Terminal Title Text */
+.window-title {
+  color: var(--accent-color);
+  font-size: 0.85rem;
+  text-shadow: 0 0 5px rgba(74, 222, 128, 0.5);
+}
+
+.header-divider {
+  color: var(--text-muted);
+}
+
+/* Right Header Area */
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+/* System Badge & Pulse Indicator */
+.sys-badge {
+  font-size: 0.75rem;
+  color: var(--accent-color);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  letter-spacing: 0.5px;
+}
+
+.pulse-dot {
+  width: 8px;
+  height: 8px;
+  background-color: var(--accent-color);
+  border-radius: 50%;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.7); }
+  70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(74, 222, 128, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(74, 222, 128, 0); }
+}
+
+/* Window Control Dots */
+.window-controls {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.control {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  display: inline-block;
+  cursor: pointer;
+  box-shadow: 0 0 5px rgba(0,0,0,0.5);
+}
+.control.minimize { background-color: #eab308; }
+.control.maximize { background-color: #22c55e; }
+.control.close { background-color: #ef4444; }
+
+/* Blinking Terminal Cursor */
+.cursor {
+  display: inline-block;
+  width: 8px;
+  height: 15px;
+  background-color: var(--accent-color);
+  margin-left: 5px;
+  animation: blink 1s step-end infinite;
+  vertical-align: middle;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* 3. Split-Pane Body Area */
+#window-body {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* Left Sidebar Navigation */
+#sidebar {
+  width: 25%;
+  min-width: 260px;
+  border-right: 1px solid var(--border-color);
+  padding: 1.5rem;
+  overflow-y: auto;
+  background: linear-gradient(180deg, rgba(2, 44, 34, 0.2) 0%, rgba(5, 10, 5, 0.6) 100%);
+}
+
+.sidebar-title {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-bottom: 0.75rem;
+  letter-spacing: 1px;
+}
+
+#directory-nav ul {
+  list-style: none;
+}
+
+#directory-nav li {
+  margin-bottom: 0.25rem;
+}
+
+#directory-nav a {
+  color: var(--text-main);
+  text-decoration: none;
+  display: block;
+  padding: 0.35rem 0.5rem;
+  border: 1px solid transparent;
+  transition: all 0.2s ease;
+}
+
+#directory-nav a:hover,
+#directory-nav a.active {
+  background-color: rgba(2, 44, 34, 0.8);
+  border: 1px solid var(--border-color);
+  color: var(--accent-color);
+  box-shadow: 
+    0 0 12px rgba(34, 197, 94, 0.3),
+    inset 0 0 6px rgba(74, 222, 128, 0.15);
+  text-shadow: 0 0 5px rgba(74, 222, 128, 0.6);
+}
+
+.folder-toggle {
+  display: block;
+  padding: 0.35rem 0.5rem;
+  color: var(--accent-color);
+  cursor: pointer;
+  user-select: none;
+  font-weight: bold;
+}
+
+.folder-toggle:hover {
+  background-color: #022c22;
+}
+
+.sub-dir {
+  list-style: none;
+  margin-left: 1rem;
+  display: none;
+}
+
+.folder-group.open .sub-dir {
+  display: block;
+}
+
+.sub-dir a {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+/* Right Content Display Pane */
+#content-display {
+  flex: 1;
+  padding: 2.5rem;
+  overflow-y: auto;
+}
+
+.tab-content {
+  display: none;
+}
+
+.tab-content.active-tab {
+  display: block;
+}
+
+h2 {
+  font-size: 1.25rem;
+  color: var(--accent-color);
+  border-bottom: 1px dashed var(--border-color);
+  padding-bottom: 0.5rem;
+  margin-bottom: 1.5rem;
+  text-shadow: 
+    0 0 4px var(--accent-color),
+    0 0 12px rgba(74, 222, 128, 0.4);
+}
+
+/* Profile Section */
+.profile-container {
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
+  margin-top: 1rem;
+}
+
+.profile-pic {
+  width: 140px;
+  height: 140px;
+  object-fit: cover;
+  border: 2px solid var(--border-color);
+  filter: grayscale(100%) contrast(120%);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: filter 0.3s, transform 0.2s, box-shadow 0.3s;
+}
+
+.profile-pic:hover {
+  filter: none;
+  transform: scale(1.02);
+  box-shadow: 0 0 15px rgba(34, 197, 94, 0.4);
+}
+
+.quick-stats {
+  margin-top: 1rem;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.stat-tag {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+/* Content & Project Cards */
+.skill-detail-box, 
+.project-card, 
+.contact-box {
+  border: 1px solid var(--border-color);
+  padding: 1.5rem;
+  background: linear-gradient(135deg, rgba(2, 44, 34, 0.6) 0%, rgba(5, 10, 5, 0.85) 100%);
+  box-shadow: 
+    0 0 15px rgba(34, 197, 94, 0.12),
+    inset 0 0 10px rgba(34, 197, 94, 0.05);
+}
+
+.project-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.image-preview-wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.project-img {
+  width: 100%;
+  max-height: 280px;
+  object-fit: cover;
+  border: 1px solid var(--border-color);
+  filter: grayscale(80%) contrast(110%);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.project-img:hover {
+  filter: grayscale(0%);
+  transform: scale(1.005);
+  box-shadow: 0 0 20px rgba(34, 197, 94, 0.3);
+}
+
+.img-caption {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  margin-top: 0.3rem;
+}
+
+.tech-tags {
+  display: flex;
+  gap: 0.5rem;
+  list-style: none;
+}
+
+.tech-tags li {
+  font-size: 0.75rem;
+  border: 1px solid var(--border-color);
+  padding: 0.15rem 0.5rem;
+  color: var(--accent-color);
+  background-color: #050a05;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.btn {
+  display: inline-block;
+  padding: 0.4rem 0.8rem;
+  border: 1px solid var(--border-color);
+  color: var(--accent-color);
+  text-decoration: none;
+  font-size: 0.85rem;
+  background-color: var(--window-bg);
+  transition: all 0.2s ease;
+}
+
+.btn:hover {
+  background-color: var(--accent-color);
+  color: var(--window-bg);
+  font-weight: bold;
+  box-shadow: 0 0 18px rgba(74, 222, 128, 0.6);
+}
+
+.btn-secondary {
+  color: var(--text-muted);
+  border-color: var(--text-muted);
+}
+
+.btn-secondary:hover {
+  background-color: var(--text-muted);
+  color: var(--window-bg);
+  box-shadow: 0 0 10px rgba(21, 128, 61, 0.5);
+}
+
+.skill-detail-box ul {
+  margin-left: 1.5rem;
+  margin-top: 1rem;
+}
+
+.skill-detail-box li {
+  margin-bottom: 0.5rem;
+}
+
+a {
+  color: var(--accent-color);
+}
+
+/* 4. Terminal Image Modal */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 100;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(3, 8, 3, 0.94);
+  backdrop-filter: blur(4px);
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 2rem;
+}
+
+.modal-content {
+  max-width: 85%;
+  max-height: 80%;
+  border: 2px solid var(--accent-color);
+  box-shadow: 0 0 30px rgba(74, 222, 128, 0.4);
+}
+
+#modal-caption {
+  margin-top: 1rem;
+  color: var(--accent-color);
+  font-size: 0.9rem;
+}
+
+.modal-close {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  color: var(--accent-color);
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  border: 1px solid var(--border-color);
+  padding: 0.2rem 0.6rem;
+  background-color: var(--window-bg);
+}
+
+.modal-close:hover {
+  background-color: var(--border-color);
+}
+
+/* CRT Power-On Animation Class */
+#window.boot-anim {
+  animation: crtTurnOn 0.75s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+  transform-origin: center;
+}
+
+@keyframes crtTurnOn {
+  0% {
+    opacity: 0;
+    transform: scale(0.01, 0.002);
+    filter: brightness(5) contrast(2);
+  }
+  40% {
+    opacity: 1;
+    transform: scale(1, 0.005);
+    filter: brightness(3);
+  }
+  70% {
+    transform: scale(1, 1.02);
+    filter: brightness(1.4);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1, 1);
+    filter: brightness(1);
+  }
+} 
+
+/* Terminal Typing Cursor Effect on Tab Headers */
+h2::after {
+  content: "█";
+  display: inline-block;
+  margin-left: 6px;
+  color: var(--accent-color);
+  font-size: 0.9em;
+  animation: blink 0.8s step-end infinite;
+}
+
+/* Active Terminal Typing Block Cursor */
+.typing-active::after {
+  content: "█";
+  display: inline-block;
+  margin-left: 4px;
+  color: var(--accent-color);
+  font-size: 0.85em;
+  animation: blink 0.6s step-end infinite;
+}
+
+/* Terminal Contact Form Styling */
+.terminal-form {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  border-top: 1px dashed var(--border-color);
+  padding-top: 1rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.form-group label {
+  font-size: 0.85rem;
+  color: var(--accent-color);
+}
+
+.terminal-form input,
+.terminal-form textarea {
+  background-color: var(--bg-color);
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+  font-family: var(--font-mono);
+  padding: 0.6rem;
+  font-size: 0.85rem;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.terminal-form input:focus,
+.terminal-form textarea:focus {
+  border-color: var(--accent-color);
+  box-shadow: 0 0 8px rgba(74, 222, 128, 0.4);
+}
+
+.terminal-form button {
+  align-self: flex-start;
+  cursor: pointer;
+}
+
+/* Form Status Output Message */
+.form-status-msg {
+  margin-top: 0.8rem;
+  font-size: 0.8rem;
+  font-family: var(--font-mono);
+  letter-spacing: 0.5px;
+  min-height: 1.2em;
+}
