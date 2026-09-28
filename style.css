@@ -93,7 +93,7 @@ html, body {
 /* 4. Header Bar (Elevated Above Vignette Layer) */
 #window-header {
   position: relative;
-  z-index: 2800; /* Sits ABOVE the vignette (2500) so badge & controls stay bright */
+  z-index: 3005; /* Sits ABOVE the vignette (2500) so badge & controls stay bright */
   background: linear-gradient(180deg, #032018 0%, #021a13 100%);
   padding: 0.6rem 1.25rem;
   border-bottom: 1px solid var(--border-color);
@@ -641,7 +641,7 @@ h2::after {
   #window-header {
     position: sticky;
     top: 0;
-    z-index: 2800; /* Updated from 102 to sit above vignette on mobile screens */
+    z-index: 3005; /* Updated from 102 to sit above vignette on mobile screens */
     width: 100%;
     padding: 0.5rem 0.65rem;
     display: flex;
