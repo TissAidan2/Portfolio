@@ -606,7 +606,21 @@ h2::after {
 }
 
 @media (max-width: 768px) {
-  /* 3. Mobile Header Bar Clean Layout */
+  /* 1. Allow page vertical scrolling on mobile */
+  html, body {
+    overflow-y: auto !important;
+    height: auto !important;
+  }
+
+  /* 2. Standardize Window Frame */
+  #window {
+    height: auto !important;
+    min-height: 100vh;
+    border: none;
+    box-shadow: none;
+  }
+
+  /* 3. Responsive Header Bar */
   #window-header {
     position: sticky;
     top: 0;
@@ -630,7 +644,6 @@ h2::after {
     flex: 1 1 auto;
   }
 
-  /* Badge stays compact and non-shrinking */
   .user-badge-container {
     flex-shrink: 0;
     padding: 0.1rem 0.35rem;
@@ -642,10 +655,9 @@ h2::after {
   }
 
   .header-divider {
-    display: none; /* Hide pipe separator on narrow viewports */
+    display: none;
   }
 
-  /* Truncate path if text space gets tight */
   .window-title {
     font-size: 0.7rem;
     white-space: nowrap;
@@ -661,7 +673,6 @@ h2::after {
     flex-shrink: 0;
   }
 
-  /* Single-line responsive status indicator */
   .sys-badge {
     font-size: 0.65rem;
     display: inline-flex;
@@ -677,6 +688,58 @@ h2::after {
   }
 
   .window-controls {
-    display: none; /* Keep window control dots hidden on mobile */
+    display: none;
+  }
+
+  /* 4. Convert Split Layout to Vertical Column Stack */
+  #window-body {
+    flex-direction: column;
+    overflow: visible;
+  }
+
+  /* 5. Mobile Top Navigation Menu */
+  #sidebar {
+    width: 100% !important;
+    min-width: 100% !important;
+    max-height: 220px;
+    border-right: none;
+    border-bottom: 1px solid var(--border-color);
+    padding: 0.85rem;
+    overflow-y: auto;
+    background: rgba(2, 26, 19, 0.95);
+  }
+
+  /* 6. Mobile Content Pane */
+  #content-display {
+    width: 100% !important;
+    padding: 1rem;
+    overflow: visible;
+  }
+
+  /* 7. Stack Profile & Cards */
+  .profile-container {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .profile-pic {
+    width: 120px;
+    height: 120px;
+  }
+
+  .quick-stats {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .action-buttons {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .btn {
+    width: 100%;
+    text-align: center;
   }
 }
