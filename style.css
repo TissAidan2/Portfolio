@@ -71,9 +71,10 @@ html, body {
 }
 
 /* 2. Main Window Container */
-/* 2. Main Window Container */
 #window {
   display: none; /* Hide window content on initial entry page */
+  position: relative; /* Establishes top-level stacking context */
+  z-index: 2000;      /* Sits ABOVE vignette (1999), BELOW scanlines (3000) */
   width: 100vw;
   height: 100vh;
   background-color: var(--window-bg);
@@ -91,8 +92,8 @@ html, body {
 
 /* Header Bar */
 #window-header {
-  position: relative;          /* Creates a stacking context */
-  z-index: 2005;               /* Places header text safely above the vignette (z-index: 1999) */
+  position: relative;
+  z-index: 2005;
   background: linear-gradient(180deg, #032018 0%, #021a13 100%);
   padding: 0.6rem 1.25rem;
   border-bottom: 1px solid var(--border-color);
