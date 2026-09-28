@@ -605,18 +605,18 @@ h2::after {
   min-height: 1.2em;
 }
 
-/* Refined Mobile & Small Screen Layout (Chrome & Safari Fixed) */
+/* Refined Mobile & Small Screen Layout */
 @media (max-width: 768px) {
-  /* 1. Force Root Viewport to Allow Natural Page Scrolling */
+  /* 1. Viewport & Body reset */
   html, body {
-    overflow-y: auto !important; /* Forces Chrome to allow pulling down to 0px top */
+    overflow-y: auto !important;
     height: auto !important;
-    min-height: 100dvh; /* Dynamic viewport height accounts for Chrome URL bar */
+    min-height: 100dvh;
   }
 
   body {
     padding: 0;
-    display: block; /* Overrides desktop flex centering */
+    display: block;
   }
 
   /* 2. Fluid Main Outer Window */
@@ -627,40 +627,33 @@ h2::after {
     border: none;
     border-radius: 0;
     box-shadow: none;
-    overflow: visible; /* Guarantees top header is never clipped */
+    overflow: visible;
   }
 
-  /* 3. Header Bar Spacing & Scaling */
- #window-header {
+  /* 3. Header Bar - Allow flexible height for stacked content */
+  #window-header {
     position: relative;
     top: 0;
     width: 100%;
     z-index: 101;
-    padding: 0.5rem 0.75rem;
+    padding: 0.6rem 0.75rem;
     gap: 0.5rem;
     font-size: 0.8rem;
+    display: flex;
     justify-content: space-between;
+    align-items: center;
   }
 
-.header-left {
+  .header-left {
     gap: 0.35rem;
     min-width: 0;
-    flex-shrink: 1; /* Allows left side to shrink gracefully */
+    flex-shrink: 1;
   }
 
-  /* Hide path text or keep it clipped gracefully on small phones */
+  /* Hide path text and standalone terminal cursor on small screens */
   .path-text,
-  .cursor {
-    display: none; /* Hides system@portfolio:~ on mobile to avoid overlap */
-  }
-
-.sys-badge {
-    font-size: 0.7rem;
-    display: flex;
-    flex-direction: column; /* Stacks status label and state vertically */
-    align-items: flex-end;   /* Aligns stacked text neatly to the right edge */
-    gap: 0.1rem;
-    white-space: normal;     /* Permits line breaking */
+  #window-header .cursor {
+    display: none;
   }
 
   .window-title {
@@ -673,21 +666,35 @@ h2::after {
   .header-right {
     gap: 0.5rem;
     flex-shrink: 0;
+    display: flex;
+    align-items: center;
+  }
+
+  /* Force System Status to Stack Vertically */
+  .sys-badge {
+    font-size: 0.68rem;
+    display: flex;
+    flex-direction: column; /* Stacks SYS_STATUS above ONLINE */
+    align-items: flex-end;   /* Right-aligns both lines */
+    gap: 0.1rem;
+    line-height: 1.1;
+  }
+
+  /* Keeps the pulse dot aligned with the status line */
+  .pulse-dot {
+    display: inline-block;
+    vertical-align: middle;
   }
 
   .window-controls {
-    display: none; /* Hide decorative window controls on small mobile screens */
+    display: none; /* Hide window control dots on mobile */
   }
 
-  /* 4. Un-constrain Window Body Container */
+  /* 4. Body Container */
   #window-body {
-
-  .window-controls {
-    display: none; /* Hide decorative window controls on small mobile screens */
-  }
     flex-direction: column;
     height: auto;
-    overflow: visible; /* Prevents nested scroll containers from trapping gestures */
+    overflow: visible;
   }
 
   /* 5. Sticky Top Sidebar Navigation */
@@ -701,7 +708,7 @@ h2::after {
     border-bottom: 1px solid var(--border-color);
     padding: 0.75rem 1rem;
     overflow: visible;
-    background-color: var(--window-bg); /* Prevents content below from showing through when scrolling */
+    background-color: var(--window-bg);
   }
 
   .sidebar-title {
@@ -734,7 +741,7 @@ h2::after {
   h2 {
     font-size: 1rem;
     margin-bottom: 1rem;
-    word-break: break-all; /* Prevents long paths from pushing layout wide */
+    word-break: break-all;
   }
 
   /* 7. Card & Image Scaling */
