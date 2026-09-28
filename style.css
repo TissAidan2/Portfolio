@@ -35,7 +35,7 @@ body::before {
   opacity: 0.6;
 }
 
-/* 2. CRT Corner Vignette (Sits Above Content, Below Header) */
+/* Update CRT Vignette in style.css */
 body::after {
   content: "";
   position: fixed;
@@ -43,15 +43,15 @@ body::after {
   left: 0; 
   width: 100vw; 
   height: 100vh;
+  /* Reduced vignette intensity and push z-index below window */
   background: radial-gradient(
     circle at center,
-    transparent 75%,
-    rgba(0, 0, 0, 0.85) 100%
+    transparent 85%,
+    rgba(0, 0, 0, 0.4) 100%
   );
-  z-index: 2500; /* Sits over #window, but underneath header bar */
+  z-index: 1999; /* Placed behind #window (z-index: 2000) */
   pointer-events: none;
 }
-
 /* Ambient Radial Background */
 html, body {
   width: 100%;
@@ -470,16 +470,16 @@ a {
   color: var(--accent-color);
 }
 
-/* 4. Terminal Image Modal */
+/* Update .modal in style.css */
 .modal {
   display: none;
   position: fixed;
-  z-index: 100;
+  z-index: 9999; /* Higher than scanlines (3000) and header (3005) */
   left: 0;
   top: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(3, 8, 3, 0.94);
+  background-color: rgba(3, 8, 3, 0.95);
   backdrop-filter: blur(4px);
   align-items: center;
   justify-content: center;

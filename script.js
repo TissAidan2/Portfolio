@@ -219,13 +219,23 @@ document.addEventListener('DOMContentLoaded', () => {
   const modalClose = document.querySelector('.modal-close');
   const modalTriggers = document.querySelectorAll('.modal-trigger');
 
-  modalTriggers.forEach(img => {
-    img.addEventListener('click', () => {
+// Replace the old modalTriggers.forEach(...) block with this in script.js:
+document.addEventListener('click', (e) => {
+  const img = e.target.closest('.modal-trigger');
+  if (img) {
+    const modal = document.getElementById('image-modal');
+    const modalImg = document.getElementById('modal-img');
+    const modalCaption = document.getElementById('modal-caption');
+
+    if (modal && modalImg) {
       modal.style.display = 'flex';
       modalImg.src = img.src;
-      modalCaption.textContent = `[ PREVIEW ]: ${img.alt}`;
-    });
-  });
+      if (modalCaption) {
+        modalCaption.textContent = `[ PREVIEW ]: ${img.alt}`;
+      }
+    }
+  }
+});
 
   if (modalClose) {
     modalClose.addEventListener('click', () => {
