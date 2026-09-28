@@ -1,6 +1,52 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    // 6. Handle Async Contact Form Submission (No Page Redirect)
+  const bootSplash = document.getElementById('boot-splash');
+  const windowElement = document.getElementById('window');
+  let booted = false;
+
+  // Function that triggers CRT animation and typewriter upon user interaction
+  function bootSystem() {
+    if (booted) return;
+    booted = true;
+
+    // 1. Hide splash screen
+    if (bootSplash) {
+      bootSplash.classList.add('hidden');
+    }
+
+    // 2. Trigger CRT Power-On Animation on #window
+    if (windowElement) {
+      windowElement.classList.add('boot-anim');
+    }
+
+    // 3. Hide header cursor after delay
+    const headerCursor = document.querySelector('#window-header .cursor');
+    if (headerCursor) {
+      setTimeout(() => {
+        headerCursor.style.display = 'none';
+      }, 2500);
+    }
+
+    // 4. Start typing animation on current tab
+    const initialHash = window.location.hash.replace('#', '');
+    if (initialHash) {
+      activateTab(initialHash);
+    } else {
+      const defaultTab = document.querySelector('.tab-content.active-tab');
+      if (defaultTab) {
+        setTimeout(() => {
+          typeWriterTab(defaultTab);
+        }, 400);
+      }
+    }
+  }
+
+  // Listen for mouse click, tap, or any keypress
+  window.addEventListener('keydown', bootSystem);
+  window.addEventListener('click', bootSystem);
+  window.addEventListener('touchstart', bootSystem);
+
+  // 5. Handle Async Contact Form Submission (No Page Redirect)
   const contactForm = document.getElementById('contact-form');
   const formStatus = document.getElementById('form-status');
   const submitBtn = document.getElementById('submit-btn');
@@ -46,28 +92,11 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
-  // 1. Trigger CRT Power-On Animation on initial load
-  const windowElement = document.getElementById('window');
-  if (windowElement) {
-    windowElement.classList.add('boot-anim');
-  }
-
-  // Hide the top header title cursor shortly after boot
-  const headerCursor = document.querySelector('#window-header .cursor');
-  if (headerCursor) {
-    setTimeout(() => {
-      headerCursor.style.display = 'none';
-    }, 2500);
-  }
 
   const folderToggles = document.querySelectorAll('.folder-toggle');
   const navLinks = document.querySelectorAll('#directory-nav a.nav-link');
   const tabContents = document.querySelectorAll('.tab-content');
 
-  /**
-   * Types out element text character-by-character.
-   * Returns a Promise that resolves when finished.
-   */
   /**
    * Types out element text while preserving nested HTML tags like <a>.
    * Returns a Promise that resolves when finished.
@@ -90,7 +119,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
       element.typingInterval = setInterval(() => {
         if (i < fullHtml.length) {
-          // If we hit an HTML tag (like <a href="...">), skip typing inside the tag syntax
           if (fullHtml.charAt(i) === '<') {
             i = fullHtml.indexOf('>', i) + 1;
           } else {
@@ -112,7 +140,6 @@ document.addEventListener('DOMContentLoaded', () => {
   async function typeWriterTab(container) {
     const targets = container.querySelectorAll('h2, p, .skill-detail-box li, .contact-box p');
     
-    // Hide all target elements first so no text flashes on tab switch
     targets.forEach(target => {
       if (!target.dataset.originalHtml) {
         target.dataset.originalHtml = target.innerHTML;
@@ -141,8 +168,10 @@ document.addEventListener('DOMContentLoaded', () => {
       targetLink.classList.add('active');
       targetSection.classList.add('active-tab');
 
-      // Trigger sequential typing effect
-      typeWriterTab(targetSection);
+      // Trigger sequential typing effect only if already booted
+      if (booted) {
+        typeWriterTab(targetSection);
+      }
 
       const parentFolder = targetLink.closest('.folder-group');
       if (parentFolder && !parentFolder.classList.contains('open')) {
@@ -155,7 +184,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // 2. Expand / Collapse Folders
+  // Expand / Collapse Folders
   folderToggles.forEach(toggle => {
     toggle.addEventListener('click', () => {
       const parentFolder = toggle.closest('.folder-group');
@@ -169,7 +198,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // 3. Click Navigation Links
+  // Click Navigation Links
   navLinks.forEach(link => {
     link.addEventListener('click', (e) => {
       const targetId = link.getAttribute('data-target');
@@ -183,20 +212,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // 4. Handle Initial Page Load
-  const initialHash = window.location.hash.replace('#', '');
-  if (initialHash) {
-    activateTab(initialHash);
-  } else {
-    const defaultTab = document.querySelector('.tab-content.active-tab');
-    if (defaultTab) {
-      setTimeout(() => {
-        typeWriterTab(defaultTab);
-      }, 500);
-    }
-  }
-
-  // 5. Terminal Image Modal
+  // Terminal Image Modal
   const modal = document.getElementById('image-modal');
   const modalImg = document.getElementById('modal-img');
   const modalCaption = document.getElementById('modal-caption');
