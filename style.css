@@ -744,7 +744,7 @@ h2::after {
   }
 }
 
-/* Interactive Boot Splash Screen */
+/* Interactive Boot Splash Screen (Matches CRT Atmosphere) */
 #boot-splash {
   position: fixed;
   top: 0;
@@ -752,12 +752,19 @@ h2::after {
   width: 100vw;
   height: 100vh;
   background-color: var(--bg-color);
+  /* Apply identical CRT ambient radial background as html, body */
+  background-image: radial-gradient(
+    circle at 50% 50%, 
+    rgba(34, 197, 94, 0.18) 0%, 
+    rgba(22, 101, 52, 0.10) 45%, 
+    rgba(6, 9, 6, 0.98) 80%
+  );
   z-index: 1000;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: opacity 0.5s ease, visibility 0.5s ease;
+  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.3s ease;
 }
 
 #boot-splash.hidden {
@@ -766,12 +773,33 @@ h2::after {
   pointer-events: none;
 }
 
+.splash-box-wrapper {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 650px;
+  padding: 0 1rem;
+}
+
 .splash-prompt {
+  width: 100%;
   text-align: center;
-  padding: 1.5rem;
+  padding: 1.5rem 1rem;
   border: 1px dashed var(--border-color);
-  background: rgba(2, 44, 34, 0.4);
-  box-shadow: 0 0 20px rgba(34, 197, 94, 0.2);
+  background: linear-gradient(135deg, rgba(2, 44, 34, 0.6) 0%, rgba(5, 10, 5, 0.85) 100%);
+  box-shadow: 
+    0 0 25px rgba(34, 197, 94, 0.2),
+    inset 0 0 15px rgba(34, 197, 94, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+#boot-splash:hover .splash-prompt {
+  border-color: var(--accent-color);
+  box-shadow: 
+    0 0 35px rgba(74, 222, 128, 0.35),
+    inset 0 0 20px rgba(34, 197, 94, 0.15);
 }
 
 .splash-title {
@@ -786,4 +814,36 @@ h2::after {
   font-size: 0.95rem;
   font-weight: bold;
   text-shadow: 0 0 8px rgba(74, 222, 128, 0.6);
+}
+
+/* Precise Center-Expanding CRT Boot Animation */
+#window.boot-anim {
+  animation: crtTurnOn 0.75s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+  /* Transform origin set strictly to center viewport */
+  transform-origin: 50% 50%;
+}
+
+@keyframes crtTurnOn {
+  0% {
+    opacity: 0;
+    /* Starts as thin phosphor line emerging directly behind the center prompt box */
+    transform: scale(0.2, 0.003);
+    filter: brightness(6) contrast(2.5);
+  }
+  35% {
+    opacity: 1;
+    /* Expands horizontally across the viewport */
+    transform: scale(1, 0.005);
+    filter: brightness(4);
+  }
+  70% {
+    /* Snaps vertically open with CRT phosphor bloom */
+    transform: scale(1, 1.02);
+    filter: brightness(1.4);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1, 1);
+    filter: brightness(1);
+  }
 }
