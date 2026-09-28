@@ -659,11 +659,6 @@ h2::after {
     white-space: nowrap;
   }
 
-  /* Hide latency detail on mobile viewports to leave ample space */
-  .sys-badge span:nth-child(n+4) {
-    display: none;
-  }
-
   .window-title {
     font-size: 0.75rem;
     white-space: nowrap;
@@ -682,6 +677,10 @@ h2::after {
 
   /* 4. Un-constrain Window Body Container */
   #window-body {
+
+  .window-controls {
+    display: none; /* Hide decorative window controls on small mobile screens */
+  }
     flex-direction: column;
     height: auto;
     overflow: visible; /* Prevents nested scroll containers from trapping gestures */
