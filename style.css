@@ -826,6 +826,19 @@ h2::after {
 @keyframes crtTurnOn {
   0% {
     opacity: 0;
+    /* Starts directly inside/behind the center prompt box width */
+    transform: scale(0.15, 0.003);
+    filter: brightness(6) contrast(2.5);
+  }
+  20% {
+    opacity: 1;
+    /* Spreads outward horizontally at a controlled pace */
+    transform: scale(0.5, 0.004);
+    filter: brightness(5);
+  }
+  55% {@keyframes crtTurnOn {
+  0% {
+    opacity: 0;
     /* Starts as thin phosphor line emerging directly behind the center prompt box */
     transform: scale(0.2, 0.003);
     filter: brightness(6) contrast(2.5);
@@ -840,6 +853,21 @@ h2::after {
     /* Snaps vertically open with CRT phosphor bloom */
     transform: scale(1, 1.02);
     filter: brightness(1.4);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1, 1);
+    filter: brightness(1);
+  }
+}
+    /* Reaches full horizontal screen width before opening vertically */
+    transform: scale(1, 0.005);
+    filter: brightness(3.5);
+  }
+  80% {
+    /* Snaps vertically open with phosphor bloom */
+    transform: scale(1, 1.02);
+    filter: brightness(1.3);
   }
   100% {
     opacity: 1;
