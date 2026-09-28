@@ -805,7 +805,8 @@ h2::after {
   text-align: center;
   padding: 1.5rem 1rem;
   border: 1px dashed var(--border-color);
-  background: linear-gradient(135deg, rgba(2, 44, 34, 0.6) 0%, rgba(5, 10, 5, 0.85) 100%);
+  /* Balanced solid backdrop with slight green tint (removes directional dark shadow) */
+  background: rgba(3, 16, 12, 0.92);
   box-shadow: 
     0 0 25px rgba(34, 197, 94, 0.2),
     inset 0 0 15px rgba(34, 197, 94, 0.1);
