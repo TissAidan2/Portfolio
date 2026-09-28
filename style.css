@@ -654,10 +654,13 @@ h2::after {
     display: none; /* Hides system@portfolio:~ on mobile to avoid overlap */
   }
 
-  .sys-badge {
+.sys-badge {
     font-size: 0.7rem;
-    gap: 0.35rem;
-    white-space: nowrap;
+    display: flex;
+    flex-direction: column; /* Stacks status label and state vertically */
+    align-items: flex-end;   /* Aligns stacked text neatly to the right edge */
+    gap: 0.1rem;
+    white-space: normal;     /* Permits line breaking */
   }
 
   .window-title {
