@@ -603,38 +603,64 @@ h2::after {
   min-height: 1.2em;
 }
 
-/* Refined Mobile Layout (Mobile / Small Screens) */
+/* Refined Mobile & Small Screen Layout (Chrome & Safari Fixed) */
 @media (max-width: 768px) {
-  /* 1. Remove body locks so the mobile page scrolls naturally */
+  /* 1. Force Root Viewport to Allow Natural Page Scrolling */
+  html, body {
+    overflow-y: auto !important; /* Forces Chrome to allow pulling down to 0px top */
+    height: auto !important;
+    min-height: 100dvh; /* Dynamic viewport height accounts for Chrome URL bar */
+  }
+
   body {
     padding: 0;
-    align-items: flex-start;
-    min-height: 100vh;
-    overflow-y: auto;
+    display: block; /* Overrides desktop flex centering */
   }
 
+  /* 2. Fluid Main Outer Window */
   #window {
     width: 100vw;
-    height: auto; /* Let content determine screen height */
-    min-height: 100vh;
+    height: auto;
+    min-height: 100dvh;
     border: none;
+    border-radius: 0;
     box-shadow: none;
+    overflow: visible; /* Guarantees top header is never clipped */
   }
 
+  /* 3. Ensure Header Bar Stays at Absolute Top */
+  #window-header {
+    position: relative;
+    top: 0;
+    width: 100%;
+    z-index: 101;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.8rem;
+  }
+
+  .window-controls {
+    display: none; /* Hide decorative window controls on small mobile screens */
+  }
+
+  /* 4. Un-constrain Window Body Container */
   #window-body {
     flex-direction: column;
     height: auto;
-    overflow: visible; /* Prevent nested scrolling containers */
+    overflow: visible; /* Prevents nested scroll containers from trapping gestures */
   }
 
-  /* 2. Compact Top Navigation Sidebar */
+  /* 5. Sticky Top Sidebar Navigation */
   #sidebar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
     width: 100%;
-    max-height: none; /* Let sidebar expand naturally without taking over height */
+    max-height: none;
     border-right: none;
     border-bottom: 1px solid var(--border-color);
     padding: 0.75rem 1rem;
     overflow: visible;
+    background-color: var(--window-bg); /* Prevents content below from showing through when scrolling */
   }
 
   .sidebar-title {
@@ -650,15 +676,14 @@ h2::after {
   #directory-nav a,
   .folder-toggle {
     padding: 0.25rem 0.5rem;
-    font-size: 0.85rem; /* Slightly smaller text for tree items */
+    font-size: 0.85rem;
   }
 
-  /* Indent sub-items slightly less on mobile */
   .sub-dir {
     margin-left: 0.5rem;
   }
 
-  /* 3. Fluid Main Content Display */
+  /* 6. Main Content Display Area */
   #content-display {
     width: 100%;
     padding: 1rem 0.75rem;
@@ -668,22 +693,22 @@ h2::after {
   h2 {
     font-size: 1rem;
     margin-bottom: 1rem;
-    word-break: break-all; /* Prevents long file titles like 02_projects/project_alpha.py from overflowing horizontal screen */
+    word-break: break-all; /* Prevents long paths (like 02_projects/project_alpha.py) from pushing layout wide */
   }
 
-  /* 4. Project & Skill Cards Spacing */
+  /* 7. Card & Image Scaling */
   .project-card,
   .skill-detail-box,
   .contact-box {
-    padding: 0.85rem; /* Tighten box padding */
+    padding: 0.85rem;
   }
 
   .project-img {
-    max-height: 180px; /* Scale down project screenshot preview height */
+    max-height: 180px;
   }
 
   .action-buttons {
-    flex-direction: column; /* Stack GitHub and Demo buttons vertically */
+    flex-direction: column;
     gap: 0.5rem;
   }
 
@@ -691,14 +716,5 @@ h2::after {
     display: block;
     text-align: center;
     width: 100%;
-  }
-}
-
-@media (max-width: 768px) {
-  #sidebar {
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    background-color: var(--window-bg); /* Prevents content below from showing through */
   }
 }
