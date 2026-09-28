@@ -17,7 +17,7 @@
   padding: 0;
 }
 
-/* CRT Scanline Overlay Effect */
+/* 1. CRT Scanlines (Top Layer - Covers Everything) */
 body::before {
   content: "";
   position: fixed;
@@ -30,12 +30,12 @@ body::before {
     rgba(0, 0, 0, 0.25) 50%
   );
   background-size: 100% 4px;
-  z-index: 3000;
+  z-index: 3000; /* Highest layer for scanlines */
   pointer-events: none;
   opacity: 0.6;
 }
 
-/* CRT Corner Vignette */
+/* 2. CRT Corner Vignette (Sits Above Content, Below Header) */
 body::after {
   content: "";
   position: fixed;
@@ -45,10 +45,10 @@ body::after {
   height: 100vh;
   background: radial-gradient(
     circle at center,
-    transparent 75%,
-    rgba(0, 0, 0, 0.7) 100%
+    transparent 60%,
+    rgba(0, 0, 0, 0.85) 100%
   );
-  z-index: 1999;
+  z-index: 2500; /* Sits over #window, but underneath header bar */
   pointer-events: none;
 }
 
@@ -70,11 +70,11 @@ html, body {
   text-shadow: 0 0 5px var(--glow-color);
 }
 
-/* 2. Main Window Container */
+/* 3. Main Window Container */
 #window {
-  display: none; /* Hide window content on initial entry page */
-  position: relative; /* Establishes top-level stacking context */
-  z-index: 2000;      /* Sits ABOVE vignette (1999), BELOW scanlines (3000) */
+  display: flex;
+  position: relative;
+  z-index: 2000; /* Sits behind the vignette overlay */
   width: 100vw;
   height: 100vh;
   background-color: var(--window-bg);
@@ -90,10 +90,10 @@ html, body {
   display: flex !important;
 }
 
-/* Header Bar */
+/* 4. Header Bar (Elevated Above Vignette Layer) */
 #window-header {
   position: relative;
-  z-index: 2005;
+  z-index: 2800; /* Sits ABOVE the vignette (2500) so badge & controls stay bright */
   background: linear-gradient(180deg, #032018 0%, #021a13 100%);
   padding: 0.6rem 1.25rem;
   border-bottom: 1px solid var(--border-color);
@@ -641,7 +641,7 @@ h2::after {
   #window-header {
     position: sticky;
     top: 0;
-    z-index: 2005; /* Updated from 102 to sit above vignette on mobile screens */
+    z-index: 2800; /* Updated from 102 to sit above vignette on mobile screens */
     width: 100%;
     padding: 0.5rem 0.65rem;
     display: flex;
