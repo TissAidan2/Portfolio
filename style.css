@@ -151,6 +151,7 @@ html, body {
   color: var(--accent-color);
   display: flex;
   align-items: center;
+  flex-wrap: wrap; /* Allows text to drop to a new line if constrained */
   gap: 0.4rem;
   letter-spacing: 0.5px;
 }
