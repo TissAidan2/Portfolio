@@ -19,13 +19,13 @@ document.addEventListener('DOMContentLoaded', () => {
       windowElement.classList.add('boot-anim');
     }
 
-    // 3. Hide header cursor after delay
-    const headerCursor = document.querySelector('#window-header .cursor');
-    if (headerCursor) {
-      setTimeout(() => {
-        headerCursor.style.display = 'none';
-      }, 2500);
-    }
+    // // 3. Hide header cursor after delay
+    // const headerCursor = document.querySelector('#window-header .cursor');
+    // if (headerCursor) {
+    //   setTimeout(() => {
+    //     headerCursor.style.display = 'none';
+    //   }, 2500);
+    // }
 
     // 4. Start typing animation on current tab
     const initialHash = window.location.hash.replace('#', '');
