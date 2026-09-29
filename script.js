@@ -4,30 +4,17 @@ document.addEventListener('DOMContentLoaded', () => {
   const windowElement = document.getElementById('window');
   let booted = false;
 
-  // Function that triggers CRT animation and typewriter upon user interaction
   function bootSystem() {
     if (booted) return;
     booted = true;
 
-    // 1. Hide splash screen
     if (bootSplash) {
       bootSplash.classList.add('hidden');
     }
 
-    // 2. Trigger CRT Power-On Animation on #window
     if (windowElement) {
       windowElement.classList.add('boot-anim');
     }
-
-    // // 3. Hide header cursor after delay
-    // const headerCursor = document.querySelector('#window-header .cursor');
-    // if (headerCursor) {
-    //   setTimeout(() => {
-    //     headerCursor.style.display = 'none';
-    //   }, 2500);
-    // }
-
-    // 4. Start typing animation on current tab
     const initialHash = window.location.hash.replace('#', '');
     if (initialHash) {
       activateTab(initialHash);
@@ -41,12 +28,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Listen for mouse click, tap, or any keypress
   window.addEventListener('keydown', bootSystem);
   window.addEventListener('click', bootSystem);
   window.addEventListener('touchstart', bootSystem);
 
-  // 5. Handle Async Contact Form Submission (No Page Redirect)
   const contactForm = document.getElementById('contact-form');
   const formStatus = document.getElementById('form-status');
   const submitBtn = document.getElementById('submit-btn');
@@ -97,10 +82,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const navLinks = document.querySelectorAll('#directory-nav a.nav-link');
   const tabContents = document.querySelectorAll('.tab-content');
 
-  /**
-   * Types out element text while preserving nested HTML tags like <a>.
-   * Returns a Promise that resolves when finished.
-   */
   function typeWriterElement(element, speed = 20) {
     return new Promise((resolve) => {
       if (!element.dataset.originalHtml) {
@@ -134,9 +115,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  /**
-   * Sequentially types out all text elements in a tab container.
-   */
   async function typeWriterTab(container) {
     const targets = container.querySelectorAll('h2, p, .skill-detail-box li, .contact-box p');
     
@@ -156,7 +134,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Helper function to activate a tab
   function activateTab(targetId) {
     const targetLink = document.querySelector(`#directory-nav a[data-target="${targetId}"]`);
     const targetSection = document.getElementById(targetId);
@@ -168,7 +145,6 @@ document.addEventListener('DOMContentLoaded', () => {
       targetLink.classList.add('active');
       targetSection.classList.add('active-tab');
 
-      // Trigger sequential typing effect only if already booted
       if (booted) {
         typeWriterTab(targetSection);
       }
@@ -183,8 +159,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
   }
-
-  // Expand / Collapse Folders
   folderToggles.forEach(toggle => {
     toggle.addEventListener('click', () => {
       const parentFolder = toggle.closest('.folder-group');
@@ -197,8 +171,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   });
-
-  // Click Navigation Links
   navLinks.forEach(link => {
     link.addEventListener('click', (e) => {
       const targetId = link.getAttribute('data-target');
@@ -212,14 +184,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Terminal Image Modal
   const modal = document.getElementById('image-modal');
   const modalImg = document.getElementById('modal-img');
   const modalCaption = document.getElementById('modal-caption');
   const modalClose = document.querySelector('.modal-close');
   const modalTriggers = document.querySelectorAll('.modal-trigger');
 
-// Replace the old modalTriggers.forEach(...) block with this in script.js:
 document.addEventListener('click', (e) => {
   const img = e.target.closest('.modal-trigger');
   if (img) {

@@ -1,23 +1,19 @@
-/* 1. Terminal Color Palette & CSS Variables */
 :root {
-  --bg-color: #060906;          /* Deep terminal black */
-  --window-bg: #030803;        /* Container green-black */
-  --text-main: #22c55e;        /* Phosphor green */
-  --text-muted: #15803d;       /* Muted darker green */
-  --border-color: #166534;     /* Green borders */
-  --accent-color: #4ade80;     /* Highlight green */
+  --bg-color: #060906;         
+  --window-bg: #030803;        
+  --text-main: #22c55e;       
+  --text-muted: #15803d;       
+  --border-color: #166534; 
+  --accent-color: #4ade80;   
   --glow-color: rgba(34, 197, 94, 0.25);
   --font-mono: 'Courier New', monospace;
 }
 
-/* Global Reset */
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
-
-/* 1. CRT Scanlines (Top Layer - Covers Everything) */
 body::before {
   content: "";
   position: fixed;
@@ -30,12 +26,11 @@ body::before {
     rgba(0, 0, 0, 0.25) 50%
   );
   background-size: 100% 4px;
-  z-index: 3000; /* Highest layer for scanlines */
+  z-index: 3000;
   pointer-events: none;
   opacity: 0.6;
 }
 
-/* Update CRT Vignette in style.css */
 body::after {
   content: "";
   position: fixed;
@@ -43,16 +38,14 @@ body::after {
   left: 0; 
   width: 100vw; 
   height: 100vh;
-  /* Reduced vignette intensity and push z-index below window */
   background: radial-gradient(
     circle at center,
     transparent 65%,
     rgba(0, 0, 0, 0.4) 100%
   );
-  z-index: 2006; /* Placed behind #window (z-index: 2000) */
+  z-index: 2006;
   pointer-events: none;
 }
-/* Ambient Radial Background */
 html, body {
   width: 100%;
   height: 100%;
@@ -70,9 +63,8 @@ html, body {
   text-shadow: 0 0 5px var(--glow-color);
 }
 
-/* 3. Main Window Container (Hidden initially until boot interaction) */
 #window {
-  display: none; /* Hide window behind boot splash initially */
+  display: none;
   position: relative;
   z-index: 2000;
   width: 100vw;
@@ -83,17 +75,13 @@ html, body {
     0 0 35px rgba(34, 197, 94, 0.15),
     inset 0 0 50px rgba(34, 197, 94, 0.08);
 }
-
-/* Shown when active or booting */
 #window.boot-anim,
 #window.active {
   display: flex !important;
 }
-
-/* 4. Header Bar (Elevated Above Vignette Layer) */
 #window-header {
   position: relative;
-  z-index: 3005; /* Sits ABOVE the vignette (2500) so badge & controls stay bright */
+  z-index: 3005; 
   background: linear-gradient(180deg, #032018 0%, #021a13 100%);
   padding: 0.6rem 1.25rem;
   border-bottom: 1px solid var(--border-color);
@@ -104,43 +92,34 @@ html, body {
   justify-content: space-between;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
 }
-
-/* Left Header Area */
 .header-left {
   display: flex;
   align-items: center;
   gap: 0.6rem;
 }
-
-/* Glowing Name Badge Frame */
 .user-badge-container {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   padding: 0.15rem 0.55rem;
-  background-color: rgba(3, 32, 24, 0.9); /* Opaque background to block underlying shadows */
+  background-color: rgba(3, 32, 24, 0.9); 
   border: 1px solid var(--accent-color);
   border-radius: 2px;
   box-shadow: 
-    0 0 12px rgba(74, 222, 128, 0.6),    /* Bright outer phosphor bloom */
+    0 0 12px rgba(74, 222, 128, 0.6),  
     inset 0 0 6px rgba(34, 197, 94, 0.3);
 }
-
-/* Badge Text Styling */
 .user-name {
   color: #ffffff;
   font-weight: 800;
   font-size: 0.8rem;
   letter-spacing: 1.2px;
-  
-  /* Multi-layered sharp white core with bright phosphor outline */
+
   text-shadow: 
     0 0 2px #ffffff,
     0 0 8px rgba(74, 222, 128, 0.9),
     0 0 18px rgba(34, 197, 94, 0.8);
 }
-
-/* Terminal Title Text */
 .window-title {
   color: var(--accent-color);
   font-size: 0.85rem;
@@ -150,21 +129,17 @@ html, body {
 .header-divider {
   color: var(--text-muted);
 }
-
-/* Right Header Area */
 .header-right {
   display: flex;
   align-items: center;
   gap: 1.25rem;
 }
-
-/* System Badge & Pulse Indicator */
 .sys-badge {
   font-size: 0.75rem;
   color: var(--accent-color);
   display: flex;
   align-items: center;
-  flex-wrap: wrap; /* Allows text to drop to a new line if constrained */
+  flex-wrap: wrap;
   gap: 0.4rem;
   letter-spacing: 0.5px;
 }
@@ -175,7 +150,7 @@ html, body {
   background-color: var(--accent-color);
   border-radius: 50%;
   animation: pulse 1.5s infinite;
-  flex-shrink: 0; /* Prevents dot from squishing on mobile screens */
+  flex-shrink: 0;
 }
 
 @keyframes pulse {
@@ -183,8 +158,6 @@ html, body {
   70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(74, 222, 128, 0); }
   100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(74, 222, 128, 0); }
 }
-
-/* Window Control Dots */
 .window-controls {
   display: flex;
   gap: 8px;
@@ -203,7 +176,6 @@ html, body {
 .control.maximize { background-color: #22c55e; }
 .control.close { background-color: #ef4444; }
 
-/* Blinking Terminal Cursor */
 .cursor {
   display: inline-block;
   width: 8px;
@@ -218,15 +190,11 @@ html, body {
   0%, 100% { opacity: 1; }
   50% { opacity: 0; }
 }
-
-/* 3. Split-Pane Body Area */
 #window-body {
   display: flex;
   flex: 1;
   overflow: hidden;
 }
-
-/* Left Sidebar Navigation */
 #sidebar {
   width: 25%;
   min-width: 260px;
@@ -299,7 +267,6 @@ html, body {
   color: var(--text-muted);
 }
 
-/* Right Content Display Pane */
 #content-display {
   flex: 1;
   padding: 2.5rem;
@@ -325,7 +292,6 @@ h2 {
     0 0 12px rgba(74, 222, 128, 0.4);
 }
 
-/* Profile Section */
 .profile-container {
   display: flex;
   gap: 1.5rem;
@@ -361,7 +327,6 @@ h2 {
   color: var(--text-muted);
 }
 
-/* Content & Project Cards */
 .skill-detail-box, 
 .project-card, 
 .contact-box {
@@ -470,11 +435,10 @@ a {
   color: var(--accent-color);
 }
 
-/* Update .modal in style.css */
 .modal {
   display: none;
   position: fixed;
-  z-index: 9999; /* Higher than scanlines (3000) and header (3005) */
+  z-index: 9999;
   left: 0;
   top: 0;
   width: 100%;
@@ -517,7 +481,6 @@ a {
   background-color: var(--border-color);
 }
 
-/* Precise Center-Expanding CRT Boot Animation */
 #window.boot-anim {
   animation: crtTurnOn 1.25s cubic-bezier(0.23, 1, 0.32, 1) forwards;
   transform-origin: 50% 50%;
@@ -548,8 +511,6 @@ a {
     filter: brightness(1);
   }
 }
-
-/* Terminal Typing Cursor Effect on Tab Headers */
 h2::after {
   content: "█";
   display: inline-block;
@@ -559,7 +520,6 @@ h2::after {
   animation: blink 0.8s step-end infinite;
 }
 
-/* Active Terminal Typing Block Cursor */
 .typing-active::after {
   content: "█";
   display: inline-block;
@@ -569,7 +529,6 @@ h2::after {
   animation: blink 0.6s step-end infinite;
 }
 
-/* Terminal Contact Form Styling */
 .terminal-form {
   margin-top: 1.5rem;
   display: flex;
@@ -613,7 +572,6 @@ h2::after {
   cursor: pointer;
 }
 
-/* Form Status Output Message */
 .form-status-msg {
   margin-top: 0.8rem;
   font-size: 0.8rem;
@@ -623,13 +581,10 @@ h2::after {
 }
 
 @media (max-width: 768px) {
-  /* 1. Allow page vertical scrolling on mobile */
   html, body {
     overflow-y: auto !important;
     height: auto !important;
   }
-
-  /* 2. Standardize Window Frame */
   #window {
     height: auto !important;
     min-height: 100vh;
@@ -637,11 +592,10 @@ h2::after {
     box-shadow: none;
   }
 
-  /* 3. Responsive Header Bar */
   #window-header {
     position: sticky;
     top: 0;
-    z-index: 3005; /* Updated from 102 to sit above vignette on mobile screens */
+    z-index: 3005;
     width: 100%;
     padding: 0.5rem 0.65rem;
     display: flex;
@@ -707,14 +661,10 @@ h2::after {
   .window-controls {
     display: none;
   }
-
-  /* 4. Convert Split Layout to Vertical Column Stack */
   #window-body {
     flex-direction: column;
     overflow: visible;
   }
-
-  /* 5. Mobile Top Navigation Menu */
   #sidebar {
     width: 100% !important;
     min-width: 100% !important;
@@ -725,15 +675,11 @@ h2::after {
     overflow-y: auto;
     background: rgba(2, 26, 19, 0.95);
   }
-
-  /* 6. Mobile Content Pane */
   #content-display {
     width: 100% !important;
     padding: 1rem;
     overflow: visible;
   }
-
-  /* 7. Stack Profile & Cards */
   .profile-container {
     flex-direction: column;
     align-items: center;
@@ -761,7 +707,6 @@ h2::after {
   }
 }
 
-/* Interactive Boot Splash Screen (Matches CRT Atmosphere) */
 #boot-splash {
   position: fixed;
   top: 0;
@@ -769,7 +714,6 @@ h2::after {
   width: 100vw;
   height: 100vh;
   background-color: var(--bg-color);
-  /* Apply identical CRT ambient radial background as html, body */
   background-image: radial-gradient(
     circle at 50% 50%, 
     rgba(34, 197, 94, 0.18) 0%, 
@@ -805,7 +749,6 @@ h2::after {
   text-align: center;
   padding: 1.5rem 1rem;
   border: 1px dashed var(--border-color);
-  /* Balanced solid backdrop with slight green tint (removes directional dark shadow) */
   background: rgba(3, 16, 12, 0.92);
   box-shadow: 
     0 0 25px rgba(34, 197, 94, 0.2),
@@ -834,41 +777,34 @@ h2::after {
   text-shadow: 0 0 8px rgba(74, 222, 128, 0.6);
 }
 
-/* Precise Center-Expanding CRT Boot Animation */
 #window.boot-anim {
   animation: crtTurnOn 1.25s cubic-bezier(0.23, 1, 0.32, 1) forwards;
-  /* Transform origin set strictly to center viewport */
   transform-origin: 50% 50%;
 }
 
 @keyframes crtTurnOn {
   0% {
     opacity: 0;
-    /* Starts directly inside/behind the center prompt box width */
     transform: scale(0.15, 0.003);
     filter: brightness(6) contrast(2.5);
   }
   20% {
     opacity: 1;
-    /* Spreads outward horizontally at a controlled pace */
     transform: scale(0.5, 0.004);
     filter: brightness(5);
   }
   55% {@keyframes crtTurnOn {
   0% {
     opacity: 0;
-    /* Starts as thin phosphor line emerging directly behind the center prompt box */
     transform: scale(0.2, 0.003);
     filter: brightness(6) contrast(2.5);
   }
   35% {
     opacity: 1;
-    /* Expands horizontally across the viewport */
     transform: scale(1, 0.005);
     filter: brightness(4);
   }
   70% {
-    /* Snaps vertically open with CRT phosphor bloom */
     transform: scale(1, 1.02);
     filter: brightness(1.4);
   }
@@ -877,13 +813,11 @@ h2::after {
     transform: scale(1, 1);
     filter: brightness(1);
   }
-}
-    /* Reaches full horizontal screen width before opening vertically */
+  }
     transform: scale(1, 0.005);
     filter: brightness(3.5);
   }
   80% {
-    /* Snaps vertically open with phosphor bloom */
     transform: scale(1, 1.02);
     filter: brightness(1.3);
   }
