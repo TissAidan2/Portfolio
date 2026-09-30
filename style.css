@@ -1,6 +1,6 @@
 :root {
-  --bg-color: #060906;         
-  --window-bg: #030803;        
+  --bg-color: #0d150e;         
+  --window-bg: #081009;        
   --text-main: #22c55e;       
   --text-muted: #15803d;       
   --border-color: #166534; 
@@ -319,12 +319,19 @@ h2 {
 .quick-stats {
   margin-top: 1rem;
   display: flex;
-  gap: 0.5rem;
+  flex-wrap: wrap;
+  gap: 0.75rem;
 }
 
 .stat-tag {
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   color: var(--text-muted);
+  background-color: rgba(2, 44, 34, 0.4);
+  border: 1px solid var(--border-color);
+  padding: 0.25rem 0.6rem;
+  border-radius: 2px;
+  white-space: normal;
+  word-break: break-word;
 }
 
 .skill-detail-box, 
