@@ -115,24 +115,43 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  async function typeWriterTab(container) {
-    const targets = container.querySelectorAll('h2, p, .skill-detail-box li, .contact-box p');
-    
-    targets.forEach(target => {
-      if (!target.dataset.originalHtml) {
-        target.dataset.originalHtml = target.innerHTML;
-      }
-      target.innerHTML = '';
-      target.style.visibility = 'hidden';
-    });
+async function typeWriterTab(container) {
+  // Hide parent containers initially
+  const boxes = container.querySelectorAll(
+    '.info-block, .quick-stats, .stack-tags, .action-buttons, .skill-detail-box, .project-card, .contact-box'
+  );
+  boxes.forEach(box => box.classList.remove('visible'));
 
-    for (const target of targets) {
-      const isHeading = target.tagName.toLowerCase() === 'h2';
-      const typingSpeed = isHeading ? 45 : 18; 
-      
-      await typeWriterElement(target, typingSpeed);
+  // Target all typeable text elements including buttons
+  const targets = container.querySelectorAll(
+    'h2, p, .stat-tag, .terminal-list li, .tech-badge, .skill-detail-box li, .contact-box p, .tech-tags li, .action-buttons .btn'
+  );
+
+  targets.forEach(target => {
+    if (!target.dataset.originalHtml) {
+      target.dataset.originalHtml = target.innerHTML;
     }
+    target.innerHTML = '';
+    target.style.visibility = 'hidden';
+  });
+
+  for (const target of targets) {
+    // Reveal parent container box as soon as its first child starts typing
+    const parentBox = target.closest(
+      '.info-block, .quick-stats, .stack-tags, .action-buttons, .skill-detail-box, .project-card, .contact-box'
+    );
+    if (parentBox && !parentBox.classList.contains('visible')) {
+      parentBox.classList.add('visible');
+    }
+
+    const isHeading = target.tagName.toLowerCase() === 'h2';
+    const isLabel = target.classList.contains('block-label') || target.tagName.toLowerCase() === 'p';
+
+    const typingSpeed = isHeading ? 40 : isLabel ? 18 : 10;
+
+    await typeWriterElement(target, typingSpeed);
   }
+}
 
   function activateTab(targetId) {
     const targetLink = document.querySelector(`#directory-nav a[data-target="${targetId}"]`);
